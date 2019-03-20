@@ -34,12 +34,12 @@ def get_s3_client():
 		)
 	return s3
 
-def get_backup_status(bucket_name,s3=None):
+def get_backup_status(bucket_name,backup_name,s3=None):
 	if s3 is None:
 		s3=get_s3_client()
 
 	backup={
-		"name": bucket_name,
+		"name": backup_name,
 		"time": None,
 		"age_hours": None,
 		"error": None,
@@ -65,11 +65,17 @@ def find_backups(s3=None):
 	if s3 is None:
 		s3=get_s3_client()
 
+	bucket_prefix=get_env("BUCKET_PREFIX","")
+
 	backups=[]
 
 	buckets=s3.list_buckets()
 	for bucket in buckets['Buckets']:
-		backups.append(get_backup_status(bucket['Name'],s3))
+		bucket_name=bucket['Name']
+		if not bucket_name.startswith(bucket_prefix):
+			continue
+		backup_name=bucket_name[len(bucket_prefix):]
+		backups.append(get_backup_status(bucket_name,backup_name,s3))
 	return backups
 
 def get_backups_json():

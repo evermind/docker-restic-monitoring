@@ -9,7 +9,7 @@ Env vars:
 * AWS_REGION (default us-east-1): S3 region
 * WARN_AGE_HOURS (default 36): Age of backup in hours for "warning" status
 * CRIT_AGE_HOURS (default 73): Age of backup in hours for "critical" status
-
+* BUCKET_PREFIX (default: none): Check only buckets with this prefix. The prefix is on status messages removed.
 
 Endpoints (at port 8080):
 
