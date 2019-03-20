@@ -11,7 +11,7 @@ Env vars:
 * CRIT_AGE_HOURS (default 73): Age of backup in hours for "critical" status
 
 
-Endpoints:
+Endpoints (at port 8080):
 
 * /json: returns a JSON object with "status" (OK|WARNING|CRITICAL) and "message" with a detailed message
 

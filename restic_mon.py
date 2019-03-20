@@ -8,6 +8,7 @@ from socketserver import ThreadingMixIn
 from http.server import HTTPServer,BaseHTTPRequestHandler
 import json
 import traceback
+import argparse
 
 def get_env(name,default=None):
 	if name in os.environ:
@@ -143,6 +144,16 @@ class MonRequestHandler(BaseHTTPRequestHandler):
 		self.wfile.write("404 Not found.\n".encode())
 
 def main():
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--check', action="store_true", help='Run a check and exit')
+	args = parser.parse_args()
+	
+	if (args.check):
+		result=get_backups_json()
+		print(result['message'])
+		return
+
 	server = ThreadingSimpleServer(('0.0.0.0', 8080), MonRequestHandler)
 	print("Starting webserver on port 8080")
 	try:
